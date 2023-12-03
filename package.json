@@ -18,6 +18,7 @@
     "mosha-vue-toastify": "^1.0.23",
     "pinia": "^2.1.7",
     "ts-node": "^10.9.1",
+    "v-mask": "^2.3.0",
     "vee-validate": "^4.11.8",
     "vue": "^3.3.4",
     "vue-awesome-swiper": "^5.0.1",

@@ -10,12 +10,12 @@ export const useAdminStore = defineStore({
     product: {},
     delete_modal: false,
     update_modal: false,
-    modal: false
+    modal: false,
   }),
   actions: {
-    async getProducts() {
+    async getProducts(q: Object) {
       try {
-        return await adminApi.getProducts()
+        return await adminApi.getProducts(q);
       } catch (error) {
         // this.error = error?.response?.data?.message
         //   ? error?.response?.data?.message
@@ -26,21 +26,33 @@ export const useAdminStore = defineStore({
     },
 
     async adminSignIn(payload: Object) {
-      try{
-        return await adminApi.adminLogin(payload)
-      } catch (error){
-        console.log('Error while signing in', error);
+      try {
+        return await adminApi.adminLogin(payload);
+      } catch (error) {
+        console.log("Error while signing in", error);
       }
     },
 
-    async getCategories() {
+    async getCategories(q: Object) {
       try {
-        return await adminApi.getCategories()
+        return await adminApi.getCategories(q);
       } catch (error) {
-        // this.error = error?.response?.data?.message
-        //   ? error?.response?.data?.message
-        //   : error.message;
-        // console.log(error);
+        console.log("Error while getting products", error);
+      }
+    },
+
+    async getBrands(q: Object) {
+      try {
+        return await adminApi.getBrands(q);
+      } catch (error) {
+        console.log("Error while getting products", error);
+      }
+    },
+
+    async getStaffById(id: number) {
+      try {
+        return await adminApi.getStaffById(id);
+      } catch (error) {
         console.log("Error while getting products", error);
       }
     },

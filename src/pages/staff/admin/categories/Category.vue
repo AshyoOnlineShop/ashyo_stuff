@@ -30,8 +30,13 @@ let loading = ref(false)
 const store = useAdminStore();
 let data: any = ref([]);
 
+let q = ref({
+  page:1, limit: 10
+})
+
 onMounted(async () => {
-  data.value = await store.getProducts();
+  data.value = await store.getCategories(q);
+  data.value = data.value.categories
   //   console.log(data.value);
 });
 

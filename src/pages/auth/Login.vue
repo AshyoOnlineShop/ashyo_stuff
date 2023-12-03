@@ -67,6 +67,8 @@ const save = async (values) => {
 
   localStorage.setItem("role", data?.stuff.role);
   localStorage.setItem("token", data?.tokens?.access_token);
+  localStorage.setItem("id", data?.stuff.id)
+
   store.staff = data.stuff
   if (data.stuff.role === "admin") {
     

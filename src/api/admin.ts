@@ -1,8 +1,8 @@
 import axiosClient from "@/api/axios/apiClient";
 
 export const adminApi = {
-  getProducts() {
-    const url = `/product/all`;
+  getProducts(q: Object) {
+    const url = `/product/all/${q}`;
     return axiosClient.get(url);
   },
 
@@ -11,8 +11,18 @@ export const adminApi = {
     return axiosClient.post(url, payload);
   },
 
-  getCategories() {
-    const url = "/category";
+  getCategories(q: Object) {
+    const url = `/category/all/${q}`;
+    return axiosClient.get(url);
+  },
+
+  getBrands(q: Object) {
+    const url = `/brand/all/${q}`;
+    return axiosClient.get(url);
+  },
+
+  getStaffById(id: number) {
+    const url = `/stuff/${id}`;
     return axiosClient.get(url);
   },
 };

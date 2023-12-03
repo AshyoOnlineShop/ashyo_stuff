@@ -6,22 +6,25 @@
               label="First name"
               name="first_name"
               placeholder-pro="First name"
-              :value="store.student.first_name"/>
+              :value="//@ts-ignore
+              store.product.first_name"/>
 
                 <VInput type="text"
               label="Last name"
               name="last_name"
               placeholder-pro="Last name"
-              :value="store.student.last_name"/>
+              :value="//@ts-ignore
+              store.product.last_name"/>
 
              <VInput
               type="text"
               label="Phone number"
               name="phone"
-              v-mask="'(+998) ## ###-##-##'"
+              mask="'(+998) ## ###-##-##'"
               masked="true"
               placeholder-pro="(+998) 90 123-45-67"
-              :value="store.student.phone"
+              :value="//@ts-ignore
+              store.product.phone"
             ></VInput>
 
             <VButton type="submit" btn_type="primary" :isLoading="loading">{{ btn_title }}</VButton>
@@ -30,15 +33,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
-import Modal from '../../../../components/ui/Modal.vue'
-import { useAdminStudentStore } from '../../../../stores/admin/adminStudent';
-import VInput from '../../../../components/form/VInput.vue';
+import Modal from '@/components/ui/Modal.vue'
+import { useAdminStore } from '@/stores/admin';
+import VInput from '@/components/form/VInput.vue';
 
-import VButton from '../../../../components/form/VButton.vue';
+import VButton from '@/components/form/VButton.vue';
 
-const store = useAdminStudentStore()
+const store = useAdminStore()
 
 const loading = ref(false)
 
@@ -59,14 +62,15 @@ const btn_title = computed(()=>{
   return 'Update'
 })
 
+//@ts-ignore
 const send = async (values) =>{
   let a = values.phone.split("")
+  //@ts-ignore
   let b = a.filter(item => !isNaN(+item) && item!=" ")
   values.phone = `+${b.join("")}`
-  values._id = store.student._id
   store.update_modal = false
     loading.value = true
-    await store.updateStudent(values)
+    // await store.updateStudent(values)
     loading.value = false
 }
 </script>

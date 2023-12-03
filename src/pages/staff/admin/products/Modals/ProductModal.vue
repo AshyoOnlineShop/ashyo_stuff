@@ -17,7 +17,7 @@
               type="text"
               label="Phone number"
               name="phone"
-              v-mask="'(+998) ## ###-##-##'"
+              :mask="'(+998) ## ###-##-##'"
               masked="true"
               placeholder-pro="(+998) 90 123-45-67"
             ></VInput>
@@ -28,15 +28,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
-import Modal from '../../../../components/ui/Modal.vue'
-import { useAdminStudentStore } from '../../../../stores/admin/adminStudent';
-import VInput from '../../../../components/form/VInput.vue';
+import Modal from '@/components/ui/Modal.vue'
+import { useAdminStore } from '@/stores/admin';
+import VInput from '@/components/form/VInput.vue';
 
-import VButton from '../../../../components/form/VButton.vue';
+import VButton from '@/components/form/VButton.vue';
 
-const store = useAdminStudentStore()
+const store = useAdminStore()
 
 const loading = ref(false)
 
@@ -57,13 +57,15 @@ const btn_title = computed(()=>{
   return 'Create'
 })
 
+//@ts-ignore
 const send = async (values) =>{
   let a = values.phone.split("")
+  //@ts-ignore
   let b = a.filter(item => !isNaN(+item) && item!=" ")
   values.phone = `+${b.join("")}`
   store.modal = false
     loading.value = true
-    await store.createStudent(values)
+    // await store.createStudent(values)
     // b = values.phone.split("")
     // console.log(b);
     // [b[4], b[5]] = [String(Number(b[4])-1), String(Number(b[5])-1)]
