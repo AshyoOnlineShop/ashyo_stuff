@@ -1,106 +1,140 @@
 <template>
   <div>
     <Modal v-if="store.modal">
-        <vee-form @submit="send" :validation-schema="schema">
-                <VInput type="text"
-              label="First name"
-              name="first_name"
-              placeholder-pro="First name"/>
+      <vee-form @submit="send" :validation-schema="schema">
+        <VInput type="text" label="Name" name="name" placeholder="Name" />
 
-                <VInput type="text"
-              label="Last name"
-              name="last_name"
-              placeholder-pro="Last name"/>
+        <VInput type="number" label="Price" name="price" placeholder="Price" />
 
-             <VInput
-            v-model="phoneNumber"
-              type="text"
-              label="Phone number"
-              name="phone"
-              :mask="'(+998) ## ###-##-##'"
-              masked="true"
-              placeholder-pro="(+998) 90 123-45-67"
-            ></VInput>
+        <VInput
+          type="number"
+          label="Quantity"
+          name="quantity"
+          placeholder="Quantity"
+        />
 
-            <VButton type="submit" btn_type="primary" :isLoading="loading">{{ btn_title }}</VButton>
-        </vee-form>
+        <select
+          v-model="form.category"
+          name="category"
+          id="category"
+          class="text-[#134E9B] h-[35px] mt-[15px] mb-[15px] block pr-[100px]"
+        >
+          <option hidden selected>Select category</option>
+          <option
+            v-for="item in categories"
+            :value="
+              //@ts-ignore
+              item.id
+            "
+          >
+            {{
+              //@ts-ignore
+              item.name
+            }}
+          </option>
+        </select>
+
+        <select
+          v-model="form.brand"
+          name="brand"
+          id="brand"
+          class="text-[#134E9B] h-[35px] mt-[15px] mb-[15px] pr-[120px]"
+        >
+          <option hidden selected>Select brand</option>
+          <option
+            v-for="item in brands"
+            :value="
+              //@ts-ignore
+              item.id
+            "
+          >
+            {{
+              //@ts-ignore
+              item.name
+            }}
+          </option>
+        </select>
+
+        <VInput
+          type="text"
+          label="Description"
+          name="description"
+          placeholder="Description"
+        />
+
+        <VButton type="submit" btn_type="primary" :isLoading="loading">{{
+          btn_title
+        }}</VButton>
+      </vee-form>
     </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import Modal from '@/components/ui/Modal.vue'
-import { useAdminStore } from '@/stores/admin';
-import VInput from '@/components/form/VInput.vue';
+import { ref, computed, onMounted } from "vue";
+import Modal from "@/components/ui/Modal.vue";
+import { useAdminStore } from "@/stores/admin";
+import VInput from "@/components/form/VInput.vue";
 
-import VButton from '@/components/form/VButton.vue';
+import VButton from "@/components/form/VButton.vue";
 
-const store = useAdminStore()
+const store = useAdminStore();
 
-const loading = ref(false)
+const loading = ref(false);
 
-const phoneNumber = ref("")
+let categories = ref([]);
+let brands = ref([]);
+
+const q = {
+  page: 1,
+  limit: 10,
+};
+
+onMounted(async () => {
+  //@ts-ignore
+  categories.value = await store.getCategories(q);
+  //@ts-ignore
+  categories.value = categories.value.categories;
+  //@ts-ignore
+  brands.value = await store.getBrands(q);
+  //@ts-ignore
+  brands.value = brands.value.brands;
+});
+
+let form = ref({
+  category: 'Select category',
+  brand: 'Select brand'
+});
 
 const schema = computed(() => {
   return {
-    first_name: 'required|min:3|max:20',
-    last_name: 'required|min:3|max:20',
-    phone: 'required|min:3|max:20'
-  }
-})
+    name: "required|min:3|max:20",
+    quantity: "required|min:2|max:10",
+    price: "required|min:2|max:10",
+  };
+});
 
-const btn_title = computed(()=>{
-  if (loading.value){
-    return "Loading"
+const btn_title = computed(() => {
+  if (loading.value) {
+    return "Loading";
   }
-  return 'Create'
-})
+  return "Create";
+});
 
 //@ts-ignore
-const send = async (values) =>{
-  let a = values.phone.split("")
+const send = async (values) => {
   //@ts-ignore
-  let b = a.filter(item => !isNaN(+item) && item!=" ")
-  values.phone = `+${b.join("")}`
-  store.modal = false
-    loading.value = true
-    // await store.createStudent(values)
-    // b = values.phone.split("")
-    // console.log(b);
-    // [b[4], b[5]] = [String(Number(b[4])-1), String(Number(b[5])-1)]
-    // console.log(b);
-    // values.phone = `${b.join("")}`
-    // console.log(values.phone);
-    // await store.createStudent(values)
-    // b = values.phone.split("")
-    // console.log(b);
-    // [b[4], b[5]] = [String(Number(b[4])-1), String(Number(b[5])-1)]
-    // console.log(b);
-    // values.phone = `${b.join("")}`
-    // console.log(values.phone);
-    // await store.createStudent(values)
-    // b = values.phone.split("")
-    // console.log(b);
-    // [b[4], b[5]] = [String(Number(b[4])-1), String(Number(b[5])-1)]
-    // console.log(b);
-    // values.phone = `${b.join("")}`
-    // console.log(values.phone);
-    // await store.createStudent(values)
-    // b = values.phone.split("")
-    // [b[4], b[5]] = [String(Number(b[4])-1), String(Number(b[5])-1)]
-    // values.phone = `${b.join("")}`
-    // await store.createStudent(values)
-    // b = values.phone.split("")
-    // [b[4], b[5]] = [String(Number(b[4])-1), String(Number(b[5])-1)]
-    // values.phone = `${b.join("")}`
-    // await store.createStudent(values)
-    // b = values.phone.split("")
-    // [b[4], b[5]] = [String(Number(b[4])-1), String(Number(b[5])-1)]
-    // values.phone = `${b.join("")}`
-    // await store.createStudent(values)
-    // loading.value = false
-}
+  values.category_id = form.value.category;
+  //@ts-ignore
+  values.brand_id = form.value.brand;
+
+  values.model_id = 4;
+  await store.createProduct(values);
+  //@ts-ignore
+  store.modal = false;
+  loading.value = true;
+  location.reload()
+};
 </script>
 
 <style scoped></style>

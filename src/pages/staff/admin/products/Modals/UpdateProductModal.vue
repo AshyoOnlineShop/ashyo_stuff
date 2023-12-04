@@ -3,29 +3,80 @@
     <Modal v-if="store.update_modal">
         <vee-form @submit="send" :validation-schema="schema">
                 <VInput type="text"
-              label="First name"
-              name="first_name"
-              placeholder-pro="First name"
+              label="Name"
+              name="name"
+              placeholder="Name"
               :value="//@ts-ignore
-              store.product.first_name"/>
+              store.product.name"/>
 
-                <VInput type="text"
-              label="Last name"
-              name="last_name"
-              placeholder-pro="Last name"
+                <VInput type="number"
+              label="Price"
+              name="price"
+              placeholder="Price"
               :value="//@ts-ignore
-              store.product.last_name"/>
+              store.product.price"/>
 
              <VInput
-              type="text"
-              label="Phone number"
-              name="phone"
-              mask="'(+998) ## ###-##-##'"
-              masked="true"
-              placeholder-pro="(+998) 90 123-45-67"
+              type="number"
+              label="Quantity"
+              name="quantity"
+              placeholder="Quantity"
               :value="//@ts-ignore
-              store.product.phone"
+              store.product.quantity"
             ></VInput>
+
+            <select
+          v-model="form.category"
+          name="category"
+          id="category"
+          class="text-[#134E9B] h-[35px] mt-[15px] mb-[15px] block pr-[100px]"
+        >
+          <option hidden selected>{{//@ts-ignore
+          store.product.category.name }}</option>
+          <option
+            v-for="item in categories"
+            :value="
+              //@ts-ignore
+              item.id
+            "
+          >
+            {{
+              //@ts-ignore
+              item.name
+            }}
+          </option>
+        </select>
+
+        <select
+          v-model="form.brand"
+          name="brand"
+          id="brand"
+          class="text-[#134E9B] h-[35px] mt-[15px] mb-[15px] pr-[120px]"
+        >
+          <option hidden selected>{{//@ts-ignore
+          store.product.brands.name }}</option>
+          <option
+            v-for="item in brands"
+            :value="
+              //@ts-ignore
+              item.id
+            "
+          >
+            {{
+              //@ts-ignore
+              item.name
+            }}
+          </option>
+        </select>
+
+        <VInput
+          type="text"
+          label="Description"
+          name="description"
+          placeholder="Description"
+          :value="//@ts-ignore
+          store.product.description"
+        />
 
             <VButton type="submit" btn_type="primary" :isLoading="loading">{{ btn_title }}</VButton>
         </vee-form>
@@ -34,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import Modal from '@/components/ui/Modal.vue'
 import { useAdminStore } from '@/stores/admin';
 import VInput from '@/components/form/VInput.vue';
@@ -45,7 +96,31 @@ const store = useAdminStore()
 
 const loading = ref(false)
 
-const phoneNumber = ref("")
+let categories = ref([]);
+let brands = ref([]);
+
+const q = {
+  page: 1,
+  limit: 10,
+};
+
+onMounted(async () => {
+  //@ts-ignore
+  categories.value = await store.getCategories(q);
+  //@ts-ignore
+  categories.value = categories.value.categories;
+  //@ts-ignore
+  brands.value = await store.getBrands(q);
+  //@ts-ignore
+  brands.value = brands.value.brands;
+});
+
+let form = ref({
+  //@ts-ignore
+  category: store.product.category.name,
+  //@ts-ignore
+  brand: store.product.brands.name
+});
 
 const schema = computed(() => {
   return {
@@ -64,13 +139,8 @@ const btn_title = computed(()=>{
 
 //@ts-ignore
 const send = async (values) =>{
-  let a = values.phone.split("")
-  //@ts-ignore
-  let b = a.filter(item => !isNaN(+item) && item!=" ")
-  values.phone = `+${b.join("")}`
   store.update_modal = false
     loading.value = true
-    // await store.updateStudent(values)
     loading.value = false
 }
 </script>

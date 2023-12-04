@@ -4,7 +4,7 @@
       style="background-color: rgba(0, 0, 0, 0.5)"
       @click="close"
     ></div>
-    <div class="w-[30%] bg-white flex items-center justify-center rounded-[8px] ml-[350px] mt-[100px] p-[10px] absolute">
+    <div class="w-[30%] bg-white flex flex-col items-center justify-center rounded-[8px] ml-[350px] mt-[70px] p-[20px] absolute">
       <transition>
         <div>
           <slot></slot>

@@ -1,6 +1,6 @@
 <template>
   <table class="w-[80%] bg-[#134E9B]">
-    <tr class="h-[50px]">
+    <tr class="h-[40px]">
       <th
         class="p-[5px] bg-global1 text-white"
         v-for="(item, index) in titles"
@@ -13,7 +13,7 @@
 
     <tr v-for="(item, index) in items" :key="index">
       <td
-        class="text-center p-[5px] bg-[#F6FBFF] h-[50px] text-[#065FD4]"
+        class="text-center p-[5px] bg-[#F6FBFF] h-[45px] text-[#065FD4]"
         :class="//@ts-ignore
         title.field == '_id' ? 'text-[#6E737B]' : ''"
         v-for="(title, index) in titles"
