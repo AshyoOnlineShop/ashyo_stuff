@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-col gap-[20px] w-full">
+  <div class="flex flex-col gap-[15px] w-full">
     <ProductModal v-if="store.modal"></ProductModal>
     <UpdateProductModal v-if="store.update_modal"></UpdateProductModal>
 
     
-    <div class="flex flex-col p-[35px] gap-[20px] w-full">
+    <div class="flex flex-col p-[25px] gap-[20px] w-full">
       <h1 class="text-[25px] font-bold">Products</h1>
       <VButton class="w-[200px]" @click="store.modal = true"  :btn_type="'primary'" :isLoading="loading" >Create product</VButton>
   
@@ -35,9 +35,9 @@ let loading = ref(false)
 const store = useAdminStore();
 let data: any = ref([]);
 
-let q = ref({
+const q = {
   page:1, limit: 10
-})
+}
 
 onMounted(async () => {
   data.value = await store.getProducts(q);

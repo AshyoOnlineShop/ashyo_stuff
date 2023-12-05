@@ -2,7 +2,8 @@ import axiosClient from "@/api/axios/apiClient";
 
 export const adminApi = {
   getProducts(q: Object) {
-    const url = `/product/all/${q}`;
+    //@ts-ignore
+    const url = `/product/all/q?${new URLSearchParams(q)}`;
     return axiosClient.get(url);
   },
 
@@ -25,4 +26,9 @@ export const adminApi = {
     const url = `/stuff/${id}`;
     return axiosClient.get(url);
   },
+
+  createProduct(payload: Object){
+    const url = `/product/create`;
+    return axiosClient.post(url, payload)
+  }
 };

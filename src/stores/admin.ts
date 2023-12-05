@@ -56,5 +56,13 @@ export const useAdminStore = defineStore({
         console.log("Error while getting products", error);
       }
     },
+
+    async createProduct(payload: Object){
+      try{
+        return await adminApi.createProduct(payload)
+      } catch (error){
+        console.log("Error while creating porduct", error);
+      }
+    }
   },
 });
