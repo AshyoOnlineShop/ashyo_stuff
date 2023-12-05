@@ -27,8 +27,18 @@ export const adminApi = {
     return axiosClient.get(url);
   },
 
-  createProduct(payload: Object){
+  createProduct(payload: Object) {
     const url = `/product/create`;
-    return axiosClient.post(url, payload)
-  }
+    return axiosClient.post(url, payload);
+  },
+
+  updateProduct(payload: Object, id: number) {
+    const url = `/product/update/${id}`;
+    return axiosClient.put(url, payload);
+  },
+
+  deleteProduct(id: number) {
+    const url = `/product/delete/${id}`;
+    return axiosClient.delete(url);
+  },
 };

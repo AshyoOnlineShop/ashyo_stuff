@@ -124,9 +124,9 @@ let form = ref({
 
 const schema = computed(() => {
   return {
-    first_name: 'required|min:3|max:20',
-    last_name: 'required|min:3|max:20',
-    phone: 'required|min:3|max:20'
+    name: "required|min:3|max:20",
+    quantity: "required|min:2|max:10",
+    price: "required|min:2|max:10",
   }
 })
 
@@ -139,9 +139,33 @@ const btn_title = computed(()=>{
 
 //@ts-ignore
 const send = async (values) =>{
+  //@ts-ignore
+  if (typeof form.value.category != 'string'){    
+    values.category_id = form.value.category;
+  } else{
+    //@ts-ignore
+    values.category_id = store.product.category.id
+  }
+
+  if (typeof form.value.brand != 'string'){
+    values.brand_id = form.value.brand;
+  } else{
+    //@ts-ignore
+    values.brand_id = store.product.brands.id
+  }
+  
+  //@ts-ignore
+  
+
+  values.model_id = 4;
+  
+  
+  //@ts-ignore
+  await store.updateProduct(values, store.product.id)
   store.update_modal = false
     loading.value = true
     loading.value = false
+    location.reload()
 }
 </script>
 

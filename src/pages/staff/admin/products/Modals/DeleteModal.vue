@@ -12,22 +12,26 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
-import Modal from '../../../../components/ui/Modal.vue'
-import { useAdminStudentStore } from '../../../../stores/admin/adminStudent'
+import Modal from '@/components/ui/Modal.vue'
+import { useAdminStore } from '@/stores/admin'
 
-import VButton from '../../../../components/form/VButton.vue'
+import VButton from '@/components/form/VButton.vue'
 
-const store = useAdminStudentStore()
+const store = useAdminStore()
 
 const loading = ref(false)
 
 const send = async () => {
   loading.value = true
   store.delete_modal = false
-  await store.deleteStudent(store.student._id)
+  console.log(store.product);
+  
+  //@ts-ignore
+  await store.deleteProduct(store.product.id)
   loading.value = false
+  location.reload()
 }
 </script>
 

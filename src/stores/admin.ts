@@ -57,12 +57,28 @@ export const useAdminStore = defineStore({
       }
     },
 
-    async createProduct(payload: Object){
-      try{
-        return await adminApi.createProduct(payload)
-      } catch (error){
+    async createProduct(payload: Object) {
+      try {
+        return await adminApi.createProduct(payload);
+      } catch (error) {
         console.log("Error while creating porduct", error);
       }
-    }
+    },
+
+    async updateProduct(payload: Object, id: number) {
+      try {
+        return await adminApi.updateProduct(payload, id);
+      } catch (error) {
+        console.log("Error while updating product", error);
+      }
+    },
+
+    async deleteProduct(id: number) {
+      try {
+        return await adminApi.deleteProduct(id);
+      } catch (error) {
+        console.log("Error while deleting product", error);
+      }
+    },
   },
 });
